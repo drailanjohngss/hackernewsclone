@@ -5,7 +5,7 @@ class Items extends Component {
     constructor() {
         super();
         this.state = {
-            newsList: [],
+            newsList: null,
         }
     }
 
@@ -29,23 +29,33 @@ class Items extends Component {
         })
         this.setState({
             newsList: arr,
-        })
+        });
+    }
+
+    renderItems = (items) => {
+        console.log('what');
+        var rows = [];
+        if(items === null) {
+            console.log('wtf');
+        } else {
+            console.log('put a little more');
+        }
+        return (
+            <div>
+                dadasd
+            </div>
+        )
     }
 
 
-    render() {
 
-        console.log(this.state.newsList);
-        let newsListArr = this.state.newsList;
-            if(newsListArr.length === 0){
-                return (
-                    <div>blah</div>
-                )
-            } else {
-            return(
-                <h1>dasds</h1>
-            )
-        }
+    render() {
+        console.log(this.state.newsList)
+        return(
+            <div>
+                {this.renderItems(this.state.newsList)}
+            </div>
+        )
     }
 }
 
