@@ -5,57 +5,44 @@ class Items extends Component {
     constructor() {
         super();
         this.state = {
-            newsList: null,
+            storyList: null,
         }
     }
 
     componentDidMount() {
-        let arr = [];
         fetch('https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty')
         .then(results => {
             return results.json();
         }).then(data => {
-            for (let newsIds of data) {
-                fetch(` https://hacker-news.firebaseio.com/v0/item/${newsIds}.json?print=pretty`).then(res => {
-                    return res.json();
-                }).then(data => {
-                    arr.push(data);
-                }).catch(e => {
-                    console.log(e);
+            let promises = data.slice(0, 30).map(url => fetch(`https://hacker-news.firebaseio.com/v0/item/${url}.json?print=pretty`).then(res => {
+                return res.json();
+            }));
+            Promise.all(promises).then(results => {
+                this.setState({
+                    storyList: results
                 })
-            }
+            });
         }).catch(error => {
             console.log(error);
         })
-        this.setState({
-            newsList: arr,
-        });
     }
-
-    renderItems = (items) => {
-        console.log('what');
-        var rows = [];
-        if(items === null) {
-            console.log('wtf');
-        } else {
-            console.log('put a little more');
-        }
-        return (
-            <div>
-                dadasd
-            </div>
-        )
-    }
-
-
-
     render() {
-        console.log(this.state.newsList)
-        return(
-            <div>
-                {this.renderItems(this.state.newsList)}
-            </div>
-        )
+        const storyList = this.state.storyList;
+        if(this.state.storyList == null){
+            return(
+                <div>
+                    Empty
+                </div>
+            )
+        } else {
+            console.log(this.state.storyList)
+            return (
+                <ul> Here is the list
+                { storyList.map((itm,i) => <li key={itm.id}> {itm.title}</li> )}
+                </ul>
+            // storyList.map(x => console.log(x));
+            )
+        }
     }
 }
 
