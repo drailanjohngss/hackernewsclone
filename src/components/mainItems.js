@@ -31,15 +31,15 @@ class Items extends Component {
         if(this.state.storyList == null){
             return(
                 <div>
-                    Empty
+                    Loading Data please wait a moment
                 </div>
             )
         } else {
             console.log(this.state.storyList)
             return (
-                <ul> Here is the list
-                { storyList.map((itm,i) => <li key={itm.id}> {itm.title}</li> )}
-                </ul>
+                <ol> Here is the list
+                { storyList.map((itm,i) => <li key={itm.id}><a href={itm.url}> {itm.title} </a></li> )}
+                </ol>
             // storyList.map(x => console.log(x));
             )
         }
